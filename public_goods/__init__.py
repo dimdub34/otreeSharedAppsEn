@@ -7,7 +7,7 @@ from _commons.useful_functions import get_minutes
 author = 'D. Dubois'
 
 doc = """
-Jeu de bien public
+Public goods game
 """
 
 
@@ -17,7 +17,7 @@ class C(BaseConstants):
     NUM_ROUNDS = 10
 
     ENDOWMENT = 20
-    CHAT_TIME = 120  # en secondes
+    CHAT_TIME = 120  # seconds
 
 
 class Subsession(BaseSubsession):
@@ -48,7 +48,7 @@ def creating_session(subsession: Subsession):
 
 
 def _get_player_contributions(player):
-    """Récupère les contributions d'un joueur sur tous les rounds."""
+    """Retrieve a player's contributions across all rounds."""
     return [r.field_maybe_none("public_account") or 0 for r in player.in_all_rounds()]
 
 
@@ -58,7 +58,7 @@ def vars_for_admin_report(subsession: Subsession):
     max_endowment = subsession.players_per_group * C.ENDOWMENT
 
     for g in subsession.get_groups():
-        # Données participants
+        # Participant data
         for p in g.get_players():
             contributions = _get_player_contributions(p)
             infos_participants.append({
@@ -70,7 +70,7 @@ def vars_for_admin_report(subsession: Subsession):
                 'cumul': p.field_maybe_none("payoff_ecu_cumul")
             })
 
-        # Données graphiques par groupe
+        # Group chart data
         players = g.get_players()
         group_dict = {
             'total_group': [[r.round_number, r.field_maybe_none("total_public_account")] for r in g.in_all_rounds()],
@@ -105,7 +105,7 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     private_account = models.IntegerField()
     public_account = models.IntegerField(
-        label="Saisissez le nombre de jetons que vous placez dans le compte collectif",
+        label="Enter the number of tokens you place in the public account",
         min=0, max=C.ENDOWMENT
     )
     payoff_ecu = models.FloatField(initial=0)
@@ -114,9 +114,9 @@ class Player(BasePlayer):
     def set_final_payoff(self):
         self.participant.payoff = cu(self.payoff_ecu_cumul * self.session.config["real_world_currency_per_point"])
 
-        txt_final = (f"Votre gain cumulé sur les {C.NUM_ROUNDS} périodes est de {self.payoff_ecu_cumul:.2f} ECU, "
-                     f"soit {self.participant.payoff}. <br> Avec le forfait de déplacement, cela vous fait un <b>total "
-                     f"de {self.participant.payoff_plus_participation_fee()}</b>.")
+        txt_final = (f"Your cumulative payoff over the {C.NUM_ROUNDS} periods is {self.payoff_ecu_cumul:.2f} ECU, "
+                     f"which corresponds to {self.participant.payoff}. <br> Including the participation fee, "
+                     f"your <b>total payoff is {self.participant.payoff_plus_participation_fee()}</b>.")
         self.participant.vars["public_goods"] = dict(
             txt_final=txt_final,
             payoff=self.participant.payoff
@@ -146,15 +146,15 @@ class MyPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         instructions_exemple_compte_collectif = (
-            f"Si vous placez 2 jetons dans le compte collectif et les autres membres de votre groupe placent "
-            f"respectivement 3, 0 et 7 jetons dans ce compte alors le gain issu du compte collectif pour chaque membre du "
-            f"groupe est égal à : {player.subsession.mpcr} x (2 + 3 + 0 + 7), "
-            f"soit {12 * player.subsession.mpcr:.2f} ECU.")
+            f"If you place 2 tokens in the public account and the other members of your group place "
+            f"3, 0, and 7 tokens respectively, then each group member's payoff from the public account is: "
+            f"{player.subsession.mpcr} x (2 + 3 + 0 + 7), "
+            f"which is {12 * player.subsession.mpcr:.2f} ECU.")
 
         instructions_exemple_gain = (
-            f"Si vous placez 7 jetons dans votre compte individuel et 13 jetons dans le compte collectif et que "
-            f"les autres membres de votre groupe placent respectivement 3, 8, et 5 jetons dans le compte collectif alors "
-            f"votre gain pour la période est de 7 + 29 x {player.subsession.mpcr} = {7 + 29 * player.subsession.mpcr:.2f} ECU."
+            f"If you place 7 tokens in your private account and 13 tokens in the public account, and the other "
+            f"members of your group place 3, 8, and 5 tokens respectively in the public account, then your payoff "
+            f"for the period is 7 + 29 x {player.subsession.mpcr} = {7 + 29 * player.subsession.mpcr:.2f} ECU."
         )
         return dict(
             instructions_template="public_goods/InstructionsTemplate.html",
@@ -188,7 +188,7 @@ class InstructionsWaitMonitor(MyPage):
 
 class Chat(MyPage):
     timeout_seconds = C.CHAT_TIME
-    timer_text = "Temps restant :"
+    timer_text = "Time left:"
 
     @staticmethod
     def is_displayed(player: Player):
@@ -232,10 +232,16 @@ class Results(MyPage):
         others = [p.public_account for p in player.get_others_in_group()]
         if len(others) == 1:
             contrib_others = others[0]
-            contrib_others_txt = f"Pour information, l'autre membre de votre groupe a placé {contrib_others} jetons dans le compte collectif."
+            contrib_others_txt = (
+                f"For your information, the other member of your group placed "
+                f"{contrib_others} tokens in the public account."
+            )
         else:
-            contrib_others = f"{', '.join(map(str, others[:-1]))} et {others[-1]}"
-            contrib_others_txt = f"Pour information, les autres membres de votre groupe ont placé {contrib_others} jetons dans le compte collectif."
+            contrib_others = f"{', '.join(map(str, others[:-1]))} and {others[-1]}"
+            contrib_others_txt = (
+                f"For your information, the other members of your group placed "
+                f"{contrib_others} tokens in the public account."
+            )
         existing = MyPage.vars_for_template(player=player)
         existing["contributions_others_txt"] = contrib_others_txt
         existing["contributions_others"] = contrib_others

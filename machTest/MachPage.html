@@ -1,5 +1,4 @@
 {{ block title }}
-Questionnaire
 {{ endblock }}
 
 {{ block styles }}
@@ -42,18 +41,25 @@ Questionnaire
 
 <div class="card bg-light mb-4 shadow-sm">
     <div class="card-body">
-        <h5 class="card-title">Consignes</h5>
         <p class="card-text">
-            Indiquez votre degré d'accord avec les affirmations du tableau ci-dessous.
-            <br>
-            Sélectionnez le chiffre approprié sur l'échelle suivante :
+        <p>
+            Listed below are a number of statements. Each represents a commonly held opinion and there are no right or
+            wrong answers. You will probably disagree with some items and agree with others. <br>
+            We are interested in the extent to which you agree or disagree with such matters of opinion. <br>
+            First impressions are usually best in such matters. Read each statement, decide if you agree or disagree and
+            the strength of your opinion. <br>
+            If you find that the answers to be used do not adequately indicate your own opinion, use the one which is
+            closest to the way you feel.
+        </p>
+        <p>
+            The scale is:
         </p>
         <div class="d-flex justify-content-between px-5 text-muted small">
-            <span>1 = Pas du tout d'accord</span>
-            <span>2 = Pas d'accord</span>
-            <span>3 = Neutre (ni d'accord, ni en désaccord)</span>
-            <span>4 = d'accord</span>
-            <span>5 = Tout à fait d'accord</span>
+            <span>1 = strongly disagree</span>
+            <span>2 = disagree</span>
+            <span>3 = neutral (neither agree nor disagree)</span>
+            <span>4 = agree</span>
+            <span>5 = strongly agree</span>
         </div>
     </div>
 </div>
@@ -62,7 +68,7 @@ Questionnaire
     <table class="table table-hover mb-0">
         <thead class="sticky-header">
         <tr>
-            <th class="border-top-0">Énoncé</th>
+            <th class="border-top-0">Statement</th>
             <th class="col-choice border-top-0">1</th>
             <th class="col-choice border-top-0">2</th>
             <th class="col-choice border-top-0">3</th>

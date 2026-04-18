@@ -1,5 +1,4 @@
 {{ block title }}
-Questionnaire
 {{ endblock }}
 
 {{ block styles }}
@@ -42,18 +41,17 @@ Questionnaire
 
 <div class="card bg-light mb-4 shadow-sm">
     <div class="card-body">
-        <h5 class="card-title">Consignes</h5>
         <p class="card-text">
-            Veuillez lire chaque énoncé et décider à quel point vous êtes d'accord ou en désaccord avec son contenu.
-            <br>
-            Sélectionnez le chiffre approprié sur l'échelle suivante :
+        <p>On this page, you will find a series of statements about you. <br>
+            Please read each statement and decide how much you agree or disagree with
+            that statement. Then indicate your response using the following scale:
         </p>
         <div class="d-flex justify-content-between px-5 text-muted small">
-            <span>1 = Pas du tout d'accord</span>
-            <span>2 = Pas d'accord</span>
-            <span>3 = Neutre (ni d'accord, ni en désaccord)</span>
-            <span>4 = d'accord</span>
-            <span>5 = Tout à fait d'accord</span>
+            <span>1 = strongly disagree</span>
+            <span>2 = disagree</span>
+            <span>3 = neutral (neither agree nor disagree)</span>
+            <span>4 = agree</span>
+            <span>5 = strongly agree</span>
         </div>
     </div>
 </div>
@@ -62,7 +60,7 @@ Questionnaire
     <table class="table table-hover mb-0">
         <thead class="sticky-header">
         <tr>
-            <th class="border-top-0">Énoncé</th>
+            <th class="border-top-0">Statement</th>
             <th class="col-choice border-top-0">1</th>
             <th class="col-choice border-top-0">2</th>
             <th class="col-choice border-top-0">3</th>

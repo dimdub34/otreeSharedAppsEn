@@ -1,5 +1,5 @@
 /**
- * Configuration centralisee pour les graphiques Highcharts.
+ * Centralized configuration for Highcharts graphs.
  */
 const ChartsConfig = {
     common: {
@@ -16,7 +16,7 @@ const ChartsConfig = {
     axes: {
         yAxis: function (max) {
             return {
-                title: { text: 'Jetons' },
+                title: { text: 'Tokens' },
                 min: 0,
                 max: max,
                 tickInterval: 5
@@ -36,11 +36,11 @@ const ChartsConfig = {
     totalGroupChart: {
         chart: { type: 'line', height: 500 },
         title: { text: '' },
-        tooltip: { headerFormat: 'Round {point.x}<br />', pointFormat: '{series.name}: {point.y:.0f} jetons' }
+        tooltip: { headerFormat: 'Round {point.x}<br />', pointFormat: '{series.name}: {point.y:.0f} tokens' }
     },
     individualChart: {
         chart: { type: 'line', height: 400 },
-        tooltip: { headerFormat: 'Round {point.x}<br />', pointFormat: '{series.name}: {point.y:.0f} jetons' }
+        tooltip: { headerFormat: 'Round {point.x}<br />', pointFormat: '{series.name}: {point.y:.0f} tokens' }
     },
     colors: [
         '#1f77b4', '#ff7f0e', '#2ca02c', '#d62728',

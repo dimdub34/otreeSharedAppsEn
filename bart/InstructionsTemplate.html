@@ -1,23 +1,23 @@
 <p>
-    Dans ce jeu, vous devez décider du nombre d'injections d'air que vous envoyez dans un ballon.
-    Initialement le ballon est dégonflé. Chaque injection d'air vous fait gagner
-    {{ C.PAYOFF_PER_PUMP|cu }}, donc plus le ballon est gonflé plus vous gagnez d'argent,
-    sauf si le ballon explose, dans ce cas vous perdez tout.</p>
+    In this task, you must decide how many air pumps you send into a balloon.
+    Initially, the balloon is deflated. Each pump earns you
+    {{ C.PAYOFF_PER_PUMP|cu }}, so the more the balloon is inflated, the more money you earn,
+    unless the balloon explodes, in which case you lose everything.</p>
 <p>
-    Le ballon supporte au maximum {{ C.MAX_PUMPS }} injections, mais il peut exploser à n'importe quelle
-    injection : 1<sup>ère</sup>, 2<sup>ème</sup>, ..., {{ C.MAX_PUMPS }}<sup>ème</sup>. <br>
-    Concrètement, le programme informatique choisit au hasard un nombre compris entre 1 et {{ C.MAX_PUMPS }}, ce nombre
-    détermine l'injection à laquelle le ballon explose. Chaque nombre a la même chance d'être tiré au sort.
+    The balloon can withstand at most {{ C.MAX_PUMPS }} pumps, but it can explode at any
+    pump: 1st, 2nd, ..., {{ C.MAX_PUMPS }}th. <br>
+    Concretely, the computer program randomly picks a number between 1 and {{ C.MAX_PUMPS }}; this number
+    determines the pump at which the balloon explodes. Each number has the same probability of being drawn.
 </p>
 <p>
-    Pour fixer le nombre d'injections d'air que vous souhaitez envoyer dans le ballon, vous devez utiliser les boutons
-    <img src="{{ static 'bart/plus.png' }}" style="width: 20px" alt="Plus" title="Gonfler le ballon">
-    et
-    <img src="{{ static 'bart/moins.png' }}" style="width: 20px" alt="Moins" title="Dégonfler le ballon">.
-    <i>Vous pouvez cliquer sur les boutons ou les maintenir appuyer.</i>
+    To set the number of air pumps you want to send into the balloon, use the buttons
+    <img src="{{ static 'bart/plus.png' }}" style="width: 20px" alt="Plus" title="Inflate the balloon">
+    and
+    <img src="{{ static 'bart/moins.png' }}" style="width: 20px" alt="Minus" title="Deflate the balloon">.
+    <i>You can click the buttons or keep them pressed.</i>
 </p>
 <p class="card-text">
-    Une fois votre décision prise, cliquez sur le bouton <em>Valider</em>. Vous verrez alors si le ballon explose ou
-    non. Si le ballon explose votre gain est de {{ 0|cu }}, sinon vous gagnez {{ C.PAYOFF_PER_PUMP |cu }} par
-    injection.
+    Once your decision is made, click the <em>Validate</em> button. You will then see whether the balloon explodes or
+    not. If the balloon explodes, your payoff is {{ 0|cu }}; otherwise, you earn {{ C.PAYOFF_PER_PUMP |cu }} per
+    pump.
 </p>

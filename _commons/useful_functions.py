@@ -1,5 +1,5 @@
 def get_minutes(seconds):
-    """Convertit des secondes en minutes et secondes."""
+    """Convert seconds to minutes"""
     minutes = seconds // 60
     remaining_seconds = seconds % 60
     if remaining_seconds:

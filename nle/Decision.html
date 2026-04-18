@@ -1,22 +1,22 @@
 {{ block title }}
-Number Line Estimation - Exercices
+Number Line Estimation - Exercises
 {{ endblock }}
 
 {{ block content }}
 
 <div class="row mb-3 bg-light">
     <div class="col">
-        <h5>Exercice <span id="exercice_number">1</span></h5>
+        <h5>Exercise <span id="exercice_number">1</span></h5>
     </div>
     <div class="col text-end">
-        <h5>Temps restant : <span id="the_timer">{{ C.NLE_TIME }}</h5>
+        <h5>Time left: <span id="the_timer">{{ C.NLE_TIME }}</h5>
     </div>
 
 </div>
 
 <div class="form-control">
     <p>
-        Le nombre cible est <span id="the_target" class="fw-bold">{{ nle_values.0|to2 }}</span>.
+        The target number is <span id="the_target" class="fw-bold">{{ nle_values.0|to2 }}</span>.
     </p>
     <div class="text-center mb-3">
         0&nbsp;<input type="range" style="width: 80%" min="0" max="100" value="0" step="0.01" list="input_ticks"
@@ -38,7 +38,7 @@ Number Line Estimation - Exercices
 
 {{ block scripts }}
 <script>
-    let current_exercice = 1;
+    let current_exercise = 1;
     let current_time = js_vars.NLE_TIME;
     const exercice_number = document.querySelector("#exercice_number");
     const the_slider = document.querySelector("input[name=nle_slider]");
@@ -66,19 +66,19 @@ Number Line Estimation - Exercices
     }
 
     function updateHiddenInput(value) {
-        document.querySelector(`input[name=nle_${current_exercice}]`).value = value;
+        document.querySelector(`input[name=nle_${current_exercise}]`).value = value;
     }
 
     function display_next() {
         clearInterval(the_interval);
-        current_exercice += 1;
-        if (current_exercice > js_vars.NB_TARGETS) {
+        current_exercise += 1;
+        if (current_exercise > js_vars.NB_TARGETS) {
             document.querySelector("form").submit();
         } else {
-            exercice_number.innerHTML = current_exercice;
+            exercice_number.innerHTML = current_exercise;
             the_slider.value = 0;
             the_timer.classList.remove("text-danger");
-            the_target.innerHTML = js_vars.nle_values[current_exercice - 1];
+            the_target.innerHTML = js_vars.nle_values[current_exercise - 1];
             current_time = js_vars.NLE_TIME;
             the_timer.innerHTML = current_time > 9 ? current_time : `0${current_time}`;
             startTimer();

@@ -46,12 +46,12 @@ class Player(BasePlayer):
             self.payoff_ecu = C.PAYOFF_SUCCESS
         self.payoff = cu(self.payoff_ecu)
 
-        txt_final = (f"Il fallait valider {C.REQUIRED_SUCCESS} grilles, et vous en avez validé "
+        txt_final = (f"You had to validate {C.REQUIRED_SUCCESS} sliders, and you validated "
                      f"{self.num_successful_sliders}. <br/>")
         if self.num_successful_sliders >= C.REQUIRED_SUCCESS:
-            txt_final += f"Vous pouvez continuer l'expérience, avec une dotation de {self.payoff_ecu} ECU."
+            txt_final += f"You can continue the experiment with an endowment of {self.payoff_ecu} ECU."
         else:
-            txt_final += f"Vous ne pouvez pas poursuivre l'expérience."
+            txt_final += "You cannot continue the experiment."
 
         self.participant.vars["slider_task"] = dict(
             txt_final=txt_final,
@@ -69,7 +69,7 @@ def format_time(seconds):
     seconds = seconds % 60
     txt = f"{minutes} minutes"
     if seconds > 0:
-        txt += f" et {seconds} secondes"
+        txt += f" and {seconds} seconds"
     return txt
 
 def common_vars(player: Player):
@@ -96,7 +96,7 @@ class Slider(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        # il ne faut pas mettre de timeout_happened car il y a un timer
+        # No need to use timeout_happened here because the page already has a timer.
         player.compute_payoff()
 
 

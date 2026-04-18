@@ -1,5 +1,5 @@
 {{ block title }}
-    Résultat
+    Result
 {{ endblock }}
 
 {{ block content }}
@@ -23,6 +23,16 @@
 
 {{ include_sibling "InstructionsModal.html" }}
 
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'global/js/fill_auto.js' }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        if (js_vars.fill_auto)
+            fill_auto();
+    });
+</script>
 {{ endblock }}
 
 

@@ -1,5 +1,5 @@
 {{ block title }}
-Number Line Estimation - Résultats
+Number Line Estimation - Results
 {{ endblock }}
 
 {{ block content }}
@@ -7,12 +7,12 @@ Number Line Estimation - Résultats
 <div class="card bg-light mb-3">
     <div class="card-body">
         <p>
-            Ci-dessous les cibles, les positions du curseur et les distances pour les
+            Below are the targets, cursor positions, and distances for the
             {{ C.NB_TARGETS }} exercices.
         </p>
         <p>
-            En moyenne vous avez placé le curseur à {{ player.nle_avg_distance|to2 }} de distance de la cible,
-            votre gain pour ce jeu est donc égal {{ player.nle_payoff }}.
+            On average, you positioned the cursor {{ player.nle_avg_distance|to2 }} away from the target.
+            Your payoff for this task is therefore {{ player.nle_payoff }}.
         </p>
     </div>
 </div>
@@ -20,9 +20,9 @@ Number Line Estimation - Résultats
 <table class="table table-sm text-center mb-3">
     <thead>
     <tr>
-        <th>Exercice</th>
-        <th>Cible</th>
-        <th>Position du curseur</th>
+        <th>Exercise</th>
+        <th>Target</th>
+        <th>Cursor position</th>
         <th>Distance</th>
     </tr>
     </thead>
@@ -43,7 +43,7 @@ Number Line Estimation - Résultats
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{static 'fill_auto.js' }}"></script>
+<script src="{{static 'global/js/fill_auto.js' }}"></script>
 <script>
     window.onload = function () {
         if (js_vars.fill_auto)

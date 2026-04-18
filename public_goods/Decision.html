@@ -4,13 +4,13 @@
 {{ endblock }}
 
 {{ block title }}
-<span class="text-muted">Décision</span>
+<span class="text-muted">Decision</span>
 {{ endblock }}
 
 {{ block content }}
 
 <div class="d-flex justify-content-between mb-3">
-    <p>Période {{ player.round_number }} sur {{ C.NUM_ROUNDS }}</p>
+    <p>Period {{ player.round_number }} of {{ C.NUM_ROUNDS }}</p>
     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
         <i class="bi bi-info-circle"></i> Instructions
     </button>
@@ -18,25 +18,24 @@
 
 <div class="alert alert-info mb-3" role="alert">
     <p>
-        Vous disposez d'une dotation de {{ C.ENDOWMENT }} jetons, et devez décider du nombre de jetons que
-        vous placez dans le compte collectif. Chaque jeton placé dans le compte collectif rapporte {{ subsession.mpcr }}
-        ECU à chacun des membres du groupe, vous compris. Les jetons que vous ne placez pas dans le compte collectif
-        sont automatiquement placés dans votre compte individuel. Chaque jeton placé dans votre compte individuel vous
-        rapporte 1 ECU, à vous et à vous seul.
+        You have an endowment of {{ C.ENDOWMENT }} tokens and must decide how many tokens to place in the
+        public account. Each token placed in the public account gives {{ subsession.mpcr }} ECU to each group member,
+        including you. Tokens not placed in the public account are automatically placed in your private account.
+        Each token placed in your private account gives you 1 ECU, and only you.
     </p>
     {{ if subsession.seuil > 0 }}
     <p>
-        Attention, si le total de jetons placés par votre groupe dans le compte collectif n'atteint pas le seuil
-        minimal de {{ subsession.seuil }} jetons alors le gain issu du compte collectif pour chaque membre du
-        groupe est 0 ECU. Dans ce cas le gain de la période pour chacun des membres du groupe est égal au
-        nombre de jetons qu'il a placé sur son compte individuel x 1 ECU.
+        Warning: if the total number of tokens placed by your group in the public account does not reach the minimum
+        threshold of {{ subsession.seuil }} tokens, then each group member's payoff from the public account is 0 ECU.
+        In this case, each group member's payoff for the period equals the number of tokens they placed in their
+        private account x 1 ECU.
     </p>
     {{ endif }}
 </div>
 
 <div class="d-flex align-items-center mb-3">
     <label for="id_public_account" class="me-3 mb-0">
-        Nombre de jetons placés dans le compte collectif :
+        Number of tokens placed in the public account:
     </label>
     <div>
         {{ form.public_account }}

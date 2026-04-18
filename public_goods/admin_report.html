@@ -1,7 +1,7 @@
-<h4 class="mb-4">Contributions totales par groupe</h4>
+<h4 class="mb-4">Total contributions by group</h4>
 <div id="groups_evol" class="mb-5" style="height: 500px;"></div>
 
-<h4 class="mt-5 mb-4">Contributions individuelles par groupe</h4>
+<h4 class="mt-5 mb-4">Individual contributions by group</h4>
 <div id="indiv_area" class="row g-4 mt-2 mb-5"></div>
 
 <script src="{{ static 'public_goods/highcharts.js' }}"></script>
@@ -14,7 +14,7 @@
     const cfg = ChartsConfig;
 
     const seriesData = infos_graph.groups_data.map((group, idx) => ({
-        name: `Groupe ${idx + 1}`,
+        name: `Group ${idx + 1}`,
         data: group.total_group,
         lineWidth: 2,
     }));
@@ -35,7 +35,7 @@
         indivArea.appendChild(divFig);
 
         const playerSeries = group.individual_contrib.map((contrib, playerIdx) => ({
-            name: `Joueur ${playerIdx + 1}`,
+            name: `Player ${playerIdx + 1}`,
             data: contrib,
             lineWidth: 2,
         }));
@@ -43,7 +43,7 @@
         Highcharts.chart(`fig_g${groupIdx}`, {
             ...cfg.common,
             ...cfg.individualChart,
-            title: {text: `Groupe ${groupIdx + 1}`},
+            title: {text: `Group ${groupIdx + 1}`},
             yAxis: cfg.axes.yAxis(20),
             xAxis: cfg.axes.xAxis(NUM_ROUNDS),
             series: playerSeries,

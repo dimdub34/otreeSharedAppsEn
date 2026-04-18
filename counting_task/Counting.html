@@ -14,15 +14,15 @@
     </button>
 </div>
 
-<h3>Comptez le nombre d'occurrences du chiffre <span id="target-number" class="text-info"></span> dans la grille</h3>
-<p class="fst-italic mb-3">(Saisissez votre réponse sous la grille)</p>
+<h3>Count the number of occurrences of the digit <span id="target-number" class="text-info"></span> in the grid</h3>
+<p class="fst-italic mb-3">(Enter your answer below the grid)</p>
 
-<p>Nombre de grilles validées : <span id="validated_grids" class="text-success fw-bold fs-5">0</span></p>
+<p>Number of validated grids: <span id="validated_grids" class="text-success fw-bold fs-5">0</span></p>
 
 <div id="grid" style="display: grid; grid-template-columns: repeat(10, 40px); gap: 5px;"></div>
 
 <input type="number" id="user-input" min="0" class="form-control mb-2" style="margin-top: 10px;"/>
-<button id="validate-btn" type="button" class="btn btn-secondary mb-2">Valider</button>
+<button id="validate-btn" type="button" class="btn btn-secondary mb-2">Validate</button>
 <p id="feedback" class="form-control-errors"></p>
 
 {{ include_sibling "InstructionsModal.html" }}
@@ -32,7 +32,7 @@
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/js/fill_auto.js' }}"></script>
 <script>
     let countCorrect = 0;
     let targetNumber = Math.floor(Math.random() * 10);
@@ -69,7 +69,7 @@
             document.getElementById("user-input").value = "";
             feedback.innerText = "";
         } else {
-            feedback.innerText = "Mauvaise réponse, essayez encore.";
+            feedback.innerText = "Wrong answer, try again.";
         }
     });
 

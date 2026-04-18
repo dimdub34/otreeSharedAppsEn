@@ -1,82 +1,79 @@
 <div class="alert alert-primary text-center mb-4">
     <p class="mb-0">
-        Les gains sont exprimés en ECU et convertis en euros à la fin de l'expérience :<br>
+        Payoffs are expressed in ECU and converted into euros at the end of the experiment:<br>
         <strong>1 ECU = {{ session.config.real_world_currency_per_point|cu }}</strong>
     </p>
 </div>
 
 <div class="instruction-card">
     <div class="card-title-header">
-        <h4 class="border-bottom pb-2 mt-4"><i class="bi bi-info-circle"></i> Cadre général</h4>
+        <h4 class="border-bottom pb-2 mt-4"><i class="bi bi-info-circle"></i> General framework</h4>
     </div>
     <div class="card-body">
         <p>
-            Au début de l'expérience, le programme informatique va former aléatoirement des groupes de
-            <strong>{{ subsession.players_per_group }} personnes</strong>.
-            La composition de ces groupes restera identique pour toute l'expérience.
-            Vous ne pouvez pas identifier les autres membres de votre groupe et ils ne peuvent pas
-            vous identifier.
+            At the start of the experiment, the computer program will randomly form groups of
+            <strong>{{ subsession.players_per_group }} people</strong>.
+            The composition of these groups will remain unchanged throughout the experiment.
+            You cannot identify the other members of your group, and they cannot identify you.
         </p>
         <p>
-            L'expérience comporte <strong>{{ C.NUM_ROUNDS }} périodes</strong> identiques.
-            Au début de chaque période, vous disposez de <strong>{{ C.ENDOWMENT }} jetons</strong> que vous devez
-            entièrement répartir entre deux comptes : votre compte individuel et un compte collectif commun à votre
-            groupe.
+            The experiment consists of <strong>{{ C.NUM_ROUNDS }} identical periods</strong>.
+            At the beginning of each period, you receive <strong>{{ C.ENDOWMENT }} tokens</strong> that you must
+            fully allocate between two accounts: your private account and a public account shared by your
+            group.
         </p>
     </div>
 </div>
 
 <div class="instruction-card">
     <div class="card-title-header">
-        <h4 class="border-bottom pb-2 mt-4"><i class="bi bi-bank"></i> Fonctionnement des comptes</h4>
+        <h4 class="border-bottom pb-2 mt-4"><i class="bi bi-bank"></i> How the accounts work</h4>
     </div>
     <div class="card-body">
-        <h5 class="mt-3 text-secondary"><i class="bi bi-person"></i> Le compte Individuel</h5>
+        <h5 class="mt-3 text-secondary"><i class="bi bi-person"></i> Private account</h5>
         <p>
-            Chaque jeton que vous placez dans votre compte individuel vous rapporte <strong>1 ECU</strong> (à vous
-            seul).
-            De même, si un autre membre place un jeton dans son compte individuel, cela lui rapporte 1 ECU (à lui seul).
+            Each token you place in your private account gives you <strong>1 ECU</strong> (for you only).
+            Likewise, if another member places a token in their private account, it gives them 1 ECU (for them only).
         </p>
         <div class="alert alert-info py-2" role="alert">
-            <i class="bi bi-info-circle-fill"></i> <strong>Exemple :</strong> Si vous placez 5 jetons dans votre compte
-            individuel, votre gain issu de ce compte sera de 5 ECU.
+            <i class="bi bi-info-circle-fill"></i> <strong>Example:</strong> If you place 5 tokens in your private
+            account, your payoff from this account will be 5 ECU.
         </div>
 
-        <h5 class="mt-4 text-secondary"><i class="bi bi-people"></i> Le compte Collectif</h5>
+        <h5 class="mt-4 text-secondary"><i class="bi bi-people"></i> Public account</h5>
         <p>
-            Le compte collectif est commun aux {{ subsession.players_per_group }} membres du groupe.
-            Chaque jeton placé dans le compte collectif rapporte <strong>{{ subsession.mpcr }} ECU</strong> à
-            <em>chaque</em> membre du groupe.
+            The public account is shared by the {{ subsession.players_per_group }} members of the group.
+            Each token placed in the public account gives <strong>{{ subsession.mpcr }} ECU</strong> to
+            <em>each</em> group member.
         </p>
         <div class="alert alert-info py-2" role="alert">
-            <i class="bi bi-info-circle-fill"></i> <strong>Exemple
-            :</strong> {{ instructions_exemple_compte_collectif }}
+            <i class="bi bi-info-circle-fill"></i> <strong>Example:</strong> {{ instructions_exemple_compte_collectif }}
         </div>
     </div>
 </div>
 
 <div class="instruction-card">
     <div class="card-title-header">
-        <h4 class="border-bottom pb-2 mt-4"><i class="bi bi-calculator"></i> Calcul du gain</h4>
+        <h4 class="border-bottom pb-2 mt-4"><i class="bi bi-calculator"></i> Payoff calculation</h4>
     </div>
     <div class="card-body">
         <p>
-            Votre gain pour la période est égal à la somme de votre gain issu du compte individuel et de votre gain issu
-            du compte collectif.
+            Your payoff for the period is the sum of your payoff from the private account and your payoff from the
+            public account.
         </p>
         <div class="alert alert-info py-2" role="alert">
-            <i class="bi bi-info-circle-fill"></i> <strong>Exemple :</strong> {{ instructions_exemple_gain }}
+            <i class="bi bi-info-circle-fill"></i> <strong>Example:</strong> {{ instructions_exemple_gain }}
         </div>
 
         {{ if subsession.seuil > 0 }}
         <div class="alert alert-danger shadow-sm mt-4">
-            <h5 class="alert-heading">⚠️ Attention au seuil minimal</h5>
+            <h5 class="alert-heading">⚠️ Minimum threshold warning</h5>
             <p class="mb-0">
-                Si le total de jetons placés par votre groupe dans le compte collectif n'atteint pas <strong>le seuil
-                minimal de {{ subsession.seuil }} jetons</strong>, alors le gain issu du compte collectif pour chaque
-                membre du groupe est de <strong>0 ECU</strong>.
-                Dans ce cas, le gain de la période pour chacun se limitera au nombre de jetons placés sur son propre
-                compte individuel.
+                If the total number of tokens placed by your group in the public account does not reach
+                <strong>the minimum threshold of {{ subsession.seuil }} tokens</strong>, then each group member's
+                payoff from the public account is <strong>0 ECU</strong>.
+                In that case, each player's payoff for the period is limited to the number of tokens placed in their
+                own private account.
             </p>
         </div>
         {{ endif }}
@@ -85,32 +82,31 @@
 
 <div class="instruction-card">
     <div class="card-title-header">
-        <h4 class="border-bottom pb-2 mt-4"><i class="bi bi-arrow-counterclockwise"></i> Déroulement d'une période</h4>
+        <h4 class="border-bottom pb-2 mt-4"><i class="bi bi-arrow-counterclockwise"></i> Sequence of a period</h4>
     </div>
     <div class="card-body">
         <p>
-            À l'écran, <strong>vous saisissez uniquement le nombre de jetons placés dans le compte collectif</strong>.
-            Les jetons restants sont automatiquement affectés à votre compte individuel.
+            On screen, <strong>you only enter the number of tokens placed in the public account</strong>.
+            The remaining tokens are automatically assigned to your private account.
         </p>
         <p>
-            Les décisions sont simultanées. Lorsque tout le groupe a validé, un <strong>écran récapitulatif</strong>
-            s'affiche avec : vos placements, le total placé par le groupe dans le compte collectif, et votre gain de la
-            période.
+            Decisions are made simultaneously. Once everyone in the group has submitted, a <strong>summary screen</strong>
+            appears showing: your allocations, the group total placed in the public account, and your payoff for the
+            period.
         </p>
         <p>
-            Vous aurez accès en permanence à un <strong>historique</strong> sous forme de tableau, reprenant les
-            résultats des périodes passées.
+            You will always have access to a tabular <strong>history</strong> showing the results of past periods.
         </p>
         {{ if subsession.chat }}
         <p>
-            Au début de chaque période, vous pourrez <span class="fw-bold"> échanger pendant {{ chat_time }}</span>
-            avec les autres membres de votre groupe via une interface de chat.
+            At the beginning of each period, you can <span class="fw-bold">chat for {{ chat_time }}</span>
+            with the other members of your group through a chat interface.
         </p>
         {{ endif }}
     </div>
 </div>
 
 <div class="alert alert-success text-center mt-4 mb-0">
-    <h5 class="mb-0">Votre gain pour l'expérience est égal à votre gain cumulé sur les {{ C.NUM_ROUNDS }}
-        périodes.</h5>
+    <h5 class="mb-0">Your payoff for the experiment equals your cumulative payoff over the {{ C.NUM_ROUNDS }}
+        periods.</h5>
 </div>

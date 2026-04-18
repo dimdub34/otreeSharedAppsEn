@@ -1,10 +1,9 @@
 {{ block title }}
-Questionnaire
 {{ endblock }}
 
 {{ block styles }}
 <style>
-    /* Figer l'en-tête de la table au défilement */
+    /* Keep the table header visible while scrolling */
     .sticky-header th {
         position: sticky;
         top: 0;
@@ -14,24 +13,24 @@ Questionnaire
         padding: 15px 5px;
     }
 
-    /* Harmoniser la largeur des colonnes de réponses */
+    /* Keep answer columns aligned */
     .col-choice {
         width: 8%;
         text-align: center;
     }
 
-    /* Style pour les labels de questions */
+    /* Question label styling */
     .question-text {
         font-size: 0.95rem;
         vertical-align: middle !important;
     }
 
-    /* Améliorer le confort visuel sur les lignes */
+    /* Improve row hover readability */
     .table-hover tbody tr:hover {
         background-color: #f8f9fa;
     }
 
-    /* Cacher les labels natifs oTree à l'intérieur du tableau */
+    /* Hide native oTree labels inside the table */
     .table .form-check-label {
         display: none;
     }
@@ -42,18 +41,16 @@ Questionnaire
 
 <div class="card bg-light mb-4 shadow-sm">
     <div class="card-body">
-        <h5 class="card-title">Consignes</h5>
         <p class="card-text">
-            Indiquez votre degré d'accord avec les affirmations du tableau ci-dessous.
-            <br>
-            Sélectionnez le chiffre approprié sur l'échelle suivante :
+            Please indicate how much you agree with each of the following statements.
+            <br> The scale is:
         </p>
         <div class="d-flex justify-content-between px-5 text-muted small">
-            <span>1 = Pas du tout d'accord</span>
-            <span>2 = Pas d'accord</span>
-            <span>3 = Neutre (ni d'accord, ni en désaccord)</span>
-            <span>4 = d'accord</span>
-            <span>5 = Tout à fait d'accord</span>
+            <span>1 = strongly disagree</span>
+            <span>2 = disagree</span>
+            <span>3 = neutral (neither agree nor disagree)</span>
+            <span>4 = agree</span>
+            <span>5 = strongly agree</span>
         </div>
     </div>
 </div>
@@ -62,7 +59,7 @@ Questionnaire
     <table class="table table-hover mb-0">
         <thead class="sticky-header">
         <tr>
-            <th class="border-top-0">Énoncé</th>
+            <th class="border-top-0">Statement</th>
             <th class="col-choice border-top-0">1</th>
             <th class="col-choice border-top-0">2</th>
             <th class="col-choice border-top-0">3</th>

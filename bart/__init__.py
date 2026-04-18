@@ -38,14 +38,14 @@ class Player(BasePlayer):
     bart_explosion = models.BooleanField()
 
     def compute_payoff(self):
-        txt_final = f"Vous avez choisi d'envoyer {self.bart_decision} injections dans le ballon."
+        txt_final = f"You chose to pump the balloon {self.bart_decision} times."
         if self.bart_explosion:
             self.payoff = cu(0)
-            txt_final += "Le ballon a explosé."
+            txt_final += " The balloon exploded."
         else:
             self.payoff = cu(self.bart_decision * C.PAYOFF_PER_PUMP)
-            txt_final += "Le ballon n'a pas explosé."
-        txt_final += "<br>" + f"Votre gain est donc de {self.payoff}."
+            txt_final += " The balloon did not explode."
+        txt_final += "<br>" + f"Your payoff is therefore {self.payoff}."
 
         self.participant.vars[app_name] = dict(txt_final=txt_final, payoff=self.payoff)
 
@@ -65,7 +65,7 @@ class Decision(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         if timeout_happened:
-            player.bart_decision = random.randint()
+            player.bart_decision = random.randint(1, C.MAX_PUMPS)
         player.compute_payoff()
 
 

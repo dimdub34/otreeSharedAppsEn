@@ -2,7 +2,7 @@ import random
 
 from otree.api import *
 
-
+doc="R. Christie‚ F. Geis. Studies in Machiavellianism. NY: Academic Press, 1970"
 class C(BaseConstants):
     NAME_IN_URL = 'mach_iv'
     PLAYERS_PER_GROUP = None
@@ -10,46 +10,33 @@ class C(BaseConstants):
 
     # questions MACH-IV
     QUESTIONS_MACH = [
-        {"id": 1,
-         "text": "Il ne faut jamais dire à quelqu'un la véritable raison pour laquelle on a fait quelque chose, à moins qu'il n'y ait un intérêt à le faire.",
-         "reverse": False},
-        {"id": 2, "text": "La meilleure façon de gérer les gens est de leur dire ce qu'ils veulent entendre.",
-         "reverse": False},
-        {"id": 3, "text": "On ne devrait agir que lorsque l'on est certain que c'est moralement juste.",
-         "reverse": True},
-        {"id": 4, "text": "La plupart des gens sont fondamentalement bons et gentils.", "reverse": True},
+        {"id": 1, "text": "Never tell anyone the real reason you did something unless it is useful to do so."},
+        {"id": 2, "text": "The best way to handle people is to tell them what they want to hear."},
+        {"id": 3, "text": "One should take action only when sure it is morally right."},
+        {"id": 4, "text": "Most people are basically good and kind."},
         {"id": 5,
-         "text": "Il est plus sûr de présumer que tous les gens ont un fond de méchanceté qui ressortira s'ils en ont l'occasion.",
-         "reverse": False},
-        {"id": 6, "text": "L'honnêteté est la meilleure politique en toutes circonstances.", "reverse": True},
-        {"id": 7, "text": "Il n'y a aucune excuse pour mentir à quelqu'un d'autre.", "reverse": True},
-        {"id": 8, "text": "D'une manière générale, les gens ne travaillent dur que s'ils y sont forcés.",
-         "reverse": False},
-        {"id": 9,
-         "text": "Tout bien considéré, il vaut mieux être humble et honnête que d'être important et malhonnête.",
-         "reverse": True},
+         "text": "It is safest to assume that all people have a vicious streak, and it will come out when they are given a chance."},
+        {"id": 6, "text": "Honesty is the best policy in all cases."},
+        {"id": 7, "text": "There is no excuse for lying to someone else."},
+        {"id": 8, "text": "Generally speaking, people won't work hard unless they're forced to do so."},
+        {"id": 9, "text": "All in all, it is better to be humble and honest than to be important and dishonest."},
         {"id": 10,
-         "text": "Quand on demande à quelqu'un de faire quelque chose, il vaut mieux donner les vraies raisons plutôt que des raisons qui ont plus de poids.",
-         "reverse": True},
-        {"id": 11, "text": "La plupart des gens qui réussissent dans le monde mènent une vie propre et morale.",
-         "reverse": True},
-        {"id": 12, "text": "Quiconque fait entièrement confiance à quelqu'un d'autre s'expose aux problèmes.",
-         "reverse": False},
+         "text": "When you ask someone to do something for you, it is best to give the real reasons for wanting it rather than giving reasons which carry more weight."},
+        {"id": 11, "text": "Most people who get ahead in the world lead clean, moral lives."},
+        {"id": 12, "text": "Anyone who completely trusts anyone else is asking for trouble."},
         {"id": 13,
-         "text": "La plus grande différence entre la plupart des criminels et les autres gens est que les criminels sont assez stupides pour se faire prendre.",
-         "reverse": False},
-        {"id": 14, "text": "La plupart des gens sont courageux.", "reverse": True},
-        {"id": 15, "text": "Il est sage de flatter les personnes importantes.", "reverse": False},
-        {"id": 16, "text": "Il est possible d'être bon sous tous les rapports.", "reverse": True},
-        {"id": 17, "text": "P.T. Barnum avait tort de dire qu'il naît un naïf chaque minute.", "reverse": True},
-        {"id": 18, "text": "Il est difficile de réussir sans couper les coins ronds ici et là.", "reverse": False},
+         "text": "The biggest difference between most criminals and other people is that the criminals are stupid enough to get caught."},
+        {"id": 14, "text": "Most people are brave."},
+        {"id": 15, "text": "It is wise to flatter important people."},
+        {"id": 16, "text": "It is possible to be good in all respects."},
+        {"id": 17, "text": "P. T. Barnum was wrong when he said 'there's a sucker born every minute.'"},
+        {"id": 18, "text": "It is hard to get ahead without cutting corners here and there."},
         {"id": 19,
-         "text": "Les gens oublient plus facilement la mort de leurs parents que la perte de leur patrimoine.",
-         "reverse": False},
-        {"id": 20, "text": "La plupart des gens ne renoncent pas facilement à leur pouvoir.", "reverse": False},
+         "text": "People suffering from incurable diseases should have the choice of being put painlessly to death."},
+        {"id": 20, "text": "Most people forget more easily the death of their parents than the loss of their property."},
     ]
     NUM_QUESTIONS = len(QUESTIONS_MACH)
-
+    QUESTIONS_MACH_DICT = {q['id']: q for q in QUESTIONS_MACH}
 
 class Subsession(BaseSubsession):
     pass
@@ -60,17 +47,13 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    mach_score = models.FloatField()
+    mach_score = models.IntegerField()
 
     def set_mach_score(self):
-        total = 0
-        for q in C.QUESTIONS_MACH:
-            val = getattr(self, f'mach_{q["id"]}')
-            if q['reverse']:
-                total += (6 - val)
-            else:
-                total += val
-        self.mach_score = total / C.NUM_QUESTIONS
+        self.mach_score = sum(
+            getattr(self, f'mach_{q["id"]}')
+            for q in C.QUESTIONS_MACH
+        )
 
 
 # Fields generation

@@ -7,8 +7,8 @@ DEMO_PAGE_INTRO_HTML = """ """
 SECRET_KEY = '1267413152020'
 
 PARTICIPANT_FIELDS = ["payoff_ecu"]
-SESSION_FIELDS = ["fill_auto", "language", "understanding", "lexicon", "test"]
-LANGUAGE_CODE = 'fr'
+SESSION_FIELDS = []
+LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'EUR'
 USE_POINTS = False
 

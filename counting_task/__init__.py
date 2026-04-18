@@ -2,7 +2,7 @@ from otree.api import *
 import random
 
 doc = """
-Counting task : comptage de 1 dans des grilles composées exclusivement de 0 et de 1
+Counting task: count digits in grids composed of digits 0 to 9
 """
 
 
@@ -44,12 +44,12 @@ class Player(BasePlayer):
         if self.num_successful_counting >= C.REQUIRED_SUCCESS:
             self.payoff_ecu = C.PAYOFF_SUCCESS
         self.payoff = cu(self.payoff_ecu)
-        txt_final = (f"Il fallait valider {C.REQUIRED_SUCCESS} grilles, et vous en avez validé "
+        txt_final = (f"You had to validate {C.REQUIRED_SUCCESS} grids, and you validated "
                      f"{self.num_successful_counting}. <br/>")
         if self.num_successful_counting >= C.REQUIRED_SUCCESS:
-            txt_final += f"Vous pouvez continuer l'expérience, avec une dotation de {self.payoff_ecu} ECU."
+            txt_final += f"You can continue the experiment with an endowment of {self.payoff_ecu} ECU."
         else:
-            txt_final += f"Vous ne pouvez pas poursuivre l'expérience."
+            txt_final += "You cannot continue the experiment."
         self.participant.vars["counting_task"] = dict(
             txt_final=txt_final,
             payoff_ecu=self.payoff_ecu,
@@ -67,7 +67,7 @@ def format_time(seconds):
     seconds = seconds % 60
     txt = f"{minutes} minutes"
     if seconds > 0:
-        txt += f" et {seconds} secondes"
+        txt += f" and {seconds} seconds"
     return txt
 
 
@@ -102,7 +102,7 @@ class Counting(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         """
-        Ne pas mettre de timeout_happened car timer :-)
+        No need to use timeout_happened here because the page already has a timer.
         """
         player.compute_payoff()
 

@@ -22,7 +22,7 @@ class C(BaseConstants):
     NB_TARGETS = 10
     NLE_TIME = 10
     CONSTANTE = 5  # gain si cible exacte
-    FACTEUR_DISTANCE = 0.05  # donc gain = CONSTANTE - 0.1 x distance où distance = | cible - valeur sélectionnée |
+    FACTEUR_DISTANCE = 0.05  # payoff = CONSTANTE - 0.05 x distance where distance = |target - cursor position|
     NLE_VALUES = [18.09, 85.03, 8.11, 77.09, 92.17, 14.64, 59.99, 93.17, 9.11, 17.76]
 
 
@@ -60,8 +60,8 @@ class Player(BasePlayer):
         differences = [abs(getattr(self, f"nle_{i}") - targets[i - 1]) for i in range(1, C.NB_TARGETS + 1)]
         self.nle_avg_distance = round(statistics.mean(differences), 2)
         self.nle_payoff = cu(C.CONSTANTE - C.FACTEUR_DISTANCE * self.nle_avg_distance)
-        txt_final = (f"Votre distance moyenne entre la valeur cible et la position du curseur "
-                     f"a été de {self.nle_avg_distance}. Votre gain est donc égal à "
+        txt_final = (f"Your average distance between the target value and your cursor position "
+                     f"was {self.nle_avg_distance}. Your payoff is therefore "
                      f"{self.nle_payoff}.")
         self.participant.vars[app_name] = dict(txt_final=txt_final, payoff=self.nle_payoff)
 

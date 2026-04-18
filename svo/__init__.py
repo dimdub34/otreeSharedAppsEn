@@ -1,7 +1,8 @@
 import random
+from pathlib import Path
+
 import numpy as np
 from otree.api import *
-from pathlib import Path
 
 app_name = Path(__file__).parent.name
 
@@ -49,17 +50,16 @@ class Group(BaseGroup):
     selected_player_decision_self = models.IntegerField()
     selected_player_decision_other = models.IntegerField()
 
+    def compute_payoffs(self):
+        self.selected_choice = random.randint(1, 6)
+        self.selected_player = random.randint(1, 2)
+        self.selected_player_decision_self = getattr(self.get_player_by_id(self.selected_player),
+                                                     f"svo_choice_{self.selected_choice}_self")
+        self.selected_player_decision_other = getattr(self.get_player_by_id(self.selected_player),
+                                                      f"svo_choice_{self.selected_choice}_other")
 
-def compute_payoffs(group: Group):
-    group.selected_choice = random.randint(1, 6)
-    group.selected_player = random.randint(1, 2)
-    group.selected_player_decision_self = getattr(group.get_player_by_id(group.selected_player),
-                                                  f"svo_choice_{group.selected_choice}_self")
-    group.selected_player_decision_other = getattr(group.get_player_by_id(group.selected_player),
-                                                   f"svo_choice_{group.selected_choice}_other")
-
-    for p in group.get_players():
-        compute_payoff(p)
+        for p in self.get_players():
+            p.compute_payoff()
 
 
 # ======================================================================================================================
@@ -85,39 +85,37 @@ class Player(BasePlayer):
     svo_mean_other = models.FloatField()
     svo_score = models.FloatField()
 
+    def compute_score(self):
+        values_player, values_other = [], []
+        for i in range(1, len(C.matrices) + 1):
+            values_player.append(getattr(self, f"svo_choice_{i}_self"))
+            values_other.append(getattr(self, f"svo_choice_{i}_other"))
+        self.svo_mean_self = np.round(np.mean(values_player), 3)
+        self.svo_mean_other = np.round(np.mean(values_other), 3)
+        self.svo_score = np.round(
+            np.degrees(
+                np.arctan((self.svo_mean_other - 50) / (self.svo_mean_self - 50))
+            ), 3)
 
-def compute_score(player: Player):
-    values_player, values_other = [], []
-    for i in range(1, len(C.matrices) + 1):
-        values_player.append(getattr(player, f"svo_choice_{i}_self"))
-        values_other.append(getattr(player, f"svo_choice_{i}_other"))
-    player.svo_mean_self = np.round(np.mean(values_player), 3)
-    player.svo_mean_other = np.round(np.mean(values_other), 3)
-    player.svo_score = np.round(
-        np.degrees(
-            np.arctan((player.svo_mean_other - 50) / (player.svo_mean_self - 50))
-        ), 3)
+    def compute_payoff(self):
+        txt_final = f"Matrix {self.group.selected_choice} was randomly selected. <br>"
+        if self.group.selected_player == self.id_in_group:
+            self.payoff = cu(self.group.selected_player_decision_self * C.conversion_rate)
+            txt_final += (f"Your allocation was applied in the pair. You chose "
+                          f"{self.group.selected_player_decision_self} ECU for yourself and "
+                          f"{self.group.selected_player_decision_other} ECU for the other player. "
+                          f"You therefore earn {self.payoff}, and the other player in your pair earns "
+                          f"{cu(self.group.selected_player_decision_other * C.conversion_rate)}.")
 
+        else:
+            self.payoff = cu(self.group.selected_player_decision_other * C.conversion_rate)
+            txt_final += (f"The other player's allocation was applied in the pair. They chose "
+                          f"{self.group.selected_player_decision_self} ECU for themselves and "
+                          f"{self.group.selected_player_decision_other} ECU for you. "
+                          f"You therefore earn {self.payoff}, and the other player in your pair earns "
+                          f"{cu(self.group.selected_player_decision_self * C.conversion_rate)}.")
 
-def compute_payoff(player: Player):
-    txt_final = f"C'est le tableau {player.group.selected_choice} qui a été aléatoirement sélectionné. <br>"
-    if player.group.selected_player == player.id_in_group:
-        player.payoff = cu(player.group.selected_player_decision_self * C.conversion_rate)
-        txt_final += (f"C'est votre répartition qui s'est appliquée dans la paire. Vous avez choisi un montant de "
-                      f"{player.group.selected_player_decision_self} ECU pour vous et de "
-                      f"{player.group.selected_player_decision_other} ECU pour l'autre joueur. Vous gagnez donc "
-                      f"{player.payoff}  et l'autre joueur de "
-                      f"votre paire gagne {cu(player.group.selected_player_decision_other * C.conversion_rate)}.")
-
-    else:
-        player.payoff = cu(player.group.selected_player_decision_other * C.conversion_rate)
-        txt_final += (f"C'est la répartition de l'autre joueur qui s'est appliquée dans la paire. Il a choisi "
-                      f"un montant de {player.group.selected_player_decision_self} ECU pour lui-même et un montant de "
-                      f"{player.group.selected_player_decision_other} ECU pour vous. Vous gagnez donc {player.payoff} "
-                      f"et l'autre joueur de votre paire gagne "
-                      f"{cu(player.group.selected_player_decision_self * C.conversion_rate)} .")
-
-    player.participant.vars[app_name] = dict(txt_final=txt_final, payoff=player.payoff)
+        self.participant.vars[app_name] = dict(txt_final=txt_final, payoff=self.payoff)
 
 
 # ======================================================================================================================
@@ -158,7 +156,7 @@ class Decision(MyPage):
                 selected_cell = random.choice(current_mat)
                 setattr(player, f"svo_choice_{i}_self", selected_cell[0])
                 setattr(player, f"svo_choice_{i}_other", selected_cell[1])
-        compute_score(player)
+        player.compute_score()
 
 
 class DecisionWaitForGroup(WaitPage):
@@ -166,7 +164,7 @@ class DecisionWaitForGroup(WaitPage):
 
     @staticmethod
     def after_all_players_arrive(group: Group):
-        compute_payoffs(group)
+        group.compute_payoffs()
 
 
 class Results(MyPage):

@@ -6,11 +6,11 @@ from pathlib import Path
 app_name = Path(__file__).parent.name
 
 doc = """
-Mesure de l'attitude au risque selon la méthode de Binswanger (1980), reprise par Eckel & Grossman (2002, 2008) <br>
-Les valeurs des lotteries sont issues du papier : <br>
+Measurement of risk attitude using the Binswanger method (1980), as used by Eckel & Grossman (2002, 2008). <br>
+The lottery values are from the paper: <br>
 Dave, C., Eckel, C.C., Johnson, C.A. et al. Eliciting risk preferences: When is simple better?. J Risk Uncertain 41, 
 219–243 (2010). https://doi.org/10.1007/s11166-010-9103-z <br>
-Les valeurs sont divisées par 10 pour représenter des Euros (en tâche de contrôle).
+The values are divided by 10 to represent Euros (control task).
 """
 
 
@@ -42,10 +42,10 @@ class Player(BasePlayer):
     def compute_payoff(self):
         self.lottery_randomVal = random.randint(1, 100)
         self.payoff = cu(C.LOTERIES[self.lottery_choice][self.lottery_randomVal > 50])
-        txt_final = (f"Vous avez choisi la lottery {self.lottery_choice} : 50 % de chances de gagner "
-                     f"{cu(C.LOTERIES[self.lottery_choice][0])} et 50 % de chances de gagner "
+        txt_final = (f"You chose lottery {self.lottery_choice}: 50% chance of winning "
+                     f"{cu(C.LOTERIES[self.lottery_choice][0])} and 50% chance of winning "
                      f"{cu(C.LOTERIES[self.lottery_choice][1])}. <br>"
-                     f"Suite au tirage au sort, votre gain est de {self.payoff}.")
+                     f"After the random draw, your payoff is {self.payoff}.")
         self.participant.vars[app_name] = dict(txt_final=txt_final, payoff=self.payoff)
 
 

@@ -18,32 +18,32 @@ Balloon Analogue Risk Task
         <div class="card text-center mb-3">
             <div class="card-body">
                 <p>
-                    Nombre d'injections: <strong><span id="nbinjections" class="text-info">0</span></strong>
+                    Number of pumps: <strong><span id="nbinjections" class="text-info">0</span></strong>
                 </p>
                 <p>
-                    Cliquer ci-dessous pour augmenter/diminuer le nombre d'injections que vous envoyez dans le ballon
+                    Click below to increase/decrease the number of pumps you send into the balloon
                 </p>
                 <div class="mb-3">
                     <button type="button" class="btn btn-light" id="btn_moins" onclick="injecter(this);"
                             onmousedown="start_injections(this)" onmouseup="stop_injections()">
-                        <img src="{{ static 'bart/moins.png' }}" style="width: 35px" alt="Moins"
-                             title="Dégonfler le ballon">
+                        <img src="{{ static 'bart/moins.png' }}" style="width: 35px" alt="Minus"
+                             title="Deflate the balloon">
                     </button>
                     <button type="button" class="btn btn-light" id="btn_plus" onclick="injecter(this);"
                             onmousedown="start_injections(this)" onmouseup="stop_injections()">
                         <img src="{{ static 'bart/plus.png' }}" style="width: 35px" alt="Plus"
-                             title="Gonfler le ballon">
+                             title="Inflate the balloon">
                     </button>
                 </div>
                 <p>
-                    Gain si le ballon n'explose pas : <strong><span id="gain_max"
+                    Payoff if the balloon does not explode: <strong><span id="gain_max"
                                                                     style="display: inline-block; width: 65px">--</span></strong><br>
-                    Gain si le ballon explose : <strong><span id="gain_explosion"
+                    Payoff if the balloon explodes: <strong><span id="gain_explosion"
                                                               style="display: inline-block; width: 65px">--</span></strong><br>
-                    Chances que le ballon explose : <strong><span id="proba_explosion"
-                                                                  style="display: inline-block; width: 65px">--</span></strong><br>
+                    Probability that the balloon explodes: <strong><span id="proba_explosion"
+                                                                          style="display: inline-block; width: 65px">--</span></strong><br>
                     <button class="btn btn-warning mt-3" type="button" id="btn_validate" onclick="valider();" disabled>
-                        Valider
+                        Validate
                     </button>
                 </p>
             </div>
@@ -55,7 +55,7 @@ Balloon Analogue Risk Task
             <span id="compteur_injections" class="text-right circle bg-info" style="visibility: hidden">0</span>
         </p>
         <img src="{{ static 'bart/balloon.png' }}" width="120" height="120" style="bottom:0;" id="balloon"
-             alt="ballon"/>
+             alt="balloon"/>
     </div>
 </div>
 
@@ -69,7 +69,7 @@ Balloon Analogue Risk Task
 
 {{ block scripts }}
 <script>
-    // selection des éléments nécessaires à chaque injection
+    // Select the elements used on each pump action.
     const pump_input = document.querySelector("#id_bart_decision");
     const balloon = document.querySelector("#balloon");
     const nb_injections = document.querySelector("#nbinjections");
@@ -118,25 +118,25 @@ Balloon Analogue Risk Task
     }
 
     function valider() {
-        // on désactive les boutons
+        // Disable buttons.
         btn_validate.disabled = true;
         btn_plus.disabled = true;
         btn_moins.disabled = true;
 
-        // on enregistre le choix et détermine si explosion
+        // Save choice and determine whether explosion occurs.
         let p_result = document.querySelector("#result");
         let nb_explosion = Math.floor(Math.random() * max_pumps) + 1;
         document.querySelector("#id_bart_explosion_value").value = nb_explosion;
         document.querySelector("#id_bart_explosion").value = current_pump <= nb_explosion ? "False" : "True";
 
-        // calcul du gain et affichage du résultat
+        // Compute payoff and show result.
         if (current_pump <= nb_explosion) {
             let gain = current_pump * js_vars.payoff_per_pump;
-            p_result.innerHTML = `Le ballon n'a pas explosé. Votre gain est de ${gain.toFixed(2)}€.`;
+            p_result.innerHTML = `The balloon did not explode. Your payoff is ${gain.toFixed(2)}€. `;
             p_result.classList.add("text-success");
         } else {
             balloon.src = "{{ static 'bart/explosion.png' }}";
-            p_result.innerHTML = `Le ballon a explosé au bout de ${nb_explosion} injection${nb_explosion > 1 ? "s" : ""}. Votre gain est de 0.00€.`;
+            p_result.innerHTML = `The balloon exploded after ${nb_explosion} pump${nb_explosion > 1 ? "s" : ""}. Your payoff is 0.00€.`;
             p_result.classList.add("text-danger");
         }
 

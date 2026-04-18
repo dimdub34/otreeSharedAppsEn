@@ -13,9 +13,9 @@
     </button>
 </div>
 
-<h3>Placez le curseur sur la valeur <span id="target-number" class="text-info"></span></h3>
+<h3>Place the slider on value <span id="target-number" class="text-info"></span></h3>
 
-<p>Nombre de sliders validés : <span id="validated_sliders" class="text-success fw-bold fs-5">0</span></p>
+<p>Number of validated sliders: <span id="validated_sliders" class="text-success fw-bold fs-5">0</span></p>
 
 <div class="text-center">
     <div>
@@ -24,7 +24,7 @@
     </div>
     <output for="slider_range" id="slider_range_output" class="fs-5">0</output>
 </div>
-<button id="validate-btn" type="button" class="btn btn-secondary mb-2">Valider</button>
+<button id="validate-btn" type="button" class="btn btn-secondary mb-2">Validate</button>
 
 <p id="feedback" class="form-control-errors"></p>
 
@@ -35,9 +35,10 @@
 {{ endblock }}
 
 {{ block scripts }}
+<script src="{{ static 'global/js/fill_auto.js' }}"></script>
 <script>
     let countCorrect = 0;
-    let targetNumber = Math.floor(Math.random() * 101); // Génère une valeur cible entre 0 et 100
+    let targetNumber = Math.floor(Math.random() * 101); // Generates a target value between 0 and 100.
     document.getElementById("target-number").innerText = targetNumber;
 
     document.getElementById("validate-btn").addEventListener("click", function () {
@@ -50,20 +51,20 @@
             document.getElementById("validated_sliders").innerText = countCorrect;
             feedback.innerText = "";
 
-            // Générer une nouvelle valeur cible
+            // Generate a new target value.
             targetNumber = Math.floor(Math.random() * 101);
             document.getElementById("target-number").innerText = targetNumber;
 
-            // Réinitialiser le curseur
+            // Reset the slider.
             document.getElementById("slider_range").value = 0;
             document.getElementById("slider_range_output").value = 0;
         } else {
-            feedback.innerText = "Mauvaise réponse, essayez encore.";
+            feedback.innerText = "Wrong answer, try again.";
         }
     });
 
     document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById("slider_range").value = 0; // Réinitialiser le curseur au chargement
+        document.getElementById("slider_range").value = 0; // Reset slider on load.
         if (js_vars.fill_auto)
             fill_auto();
 

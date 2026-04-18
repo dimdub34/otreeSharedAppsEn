@@ -4,40 +4,40 @@
         width: 400px;
     }
 
-    /* Ajoute un curseur pointer aux lignes du tableau */
+    /* Add pointer cursor to table rows */
     table.table tbody tr:hover, table.table tbody td:hover {
         cursor: pointer;
     }
 </style>
 {{ endblock }}
 {{ block title }}
-Eckel & Grossman - Décision
+Eckel & Grossman - Decision
 {{ endblock }}
 
 {{ block content }}
 <div class="card bg-light mb-3">
     <div class="card-body">
         <p class="mb-3">
-            Dans ce jeu, {{ C.NUM_LOTERIES }} loteries vous sont présentées.
-            A chaque loterie, vous avez 50 % de chances
-            de gagner le premier montant et 50 % de chances de gagner le second montant.
-            Par exemple
-            à la loterie 3 vous avez 50 % de chances de gagner {{ C.LOTERIES.3.0 | cu }} et
-            50 % de chances de gagner {{ C.LOTERIES.3.1 | cu }}. <br>
-            <strong>Vous devez sélectionner la loterie que vous préférez parmi les {{ C.NUM_LOTERIES }}.</strong
+            In this game, {{ C.NUM_LOTERIES }} lotteries are presented to you.
+            For each lottery, you have a 50% chance
+            of winning the first amount and a 50% chance of winning the second amount.
+            For example,
+            for lottery 3 you have a 50% chance of winning {{ C.LOTERIES.3.0 | cu }} and
+            a 50% chance of winning {{ C.LOTERIES.3.1 | cu }}. <br>
+            <strong>You must select the lottery you prefer among the {{ C.NUM_LOTERIES }}.</strong
         </p>
         <p>
-            La loterie que vous aurez sélectionnée sera appliquée par le programme informatique. Ce dernier tirera
-            au sort un nombre compris entre 1 et 100. Si le nombre est inférieur ou égal à 50 vous gagnerez le premier
-            montant et s'il est supérieur à 50 vous gagnerez le second montant.
+            The lottery you selected will be applied by the computer program. It will draw a random number between 1 and 100.
+            If the number is 50 or less, you will win the first amount, and if it is greater than 50, you will win the
+            second amount.
         </p>
     </div>
 </div>
 <table class="table table-sm mx-auto mb-3" id="loteries">
     <thead>
     <tr>
-        <th>N&deg;</th>
-        <th class="text-center">Loterie</th>
+        <th>No.</th>
+        <th class="text-center">Lottery</th>
     </tr>
     </thead>
     <tbody>
@@ -45,8 +45,8 @@ Eckel & Grossman - Décision
     <tr onclick="set_choice(this)">
         <td class="align-middle">{{ k }}</td>
         <td class="text-center">
-            50 % de chances de gagner {{ v.0|cu }} <br>
-            50 % de chances de gagner {{ v.1|cu }}
+            50% chance of winning {{ v.0|cu }} <br>
+            50% chance of winning {{ v.1|cu }}
         </td>
     </tr>
     {{ endfor }}
@@ -60,7 +60,7 @@ Eckel & Grossman - Décision
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{static 'fill_auto.js' }}"></script>
+<script src="{{static 'global/js/fill_auto.js' }}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(".otree-btn-next").disabled = true;

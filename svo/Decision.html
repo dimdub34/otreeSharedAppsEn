@@ -22,32 +22,28 @@ Social Value Orientation - Decisions
 <div class="card bg-light text-justify mb-3">
     <div class="card-body">
         <p>
-            Vous faites partie d'une paire formée aléatoirement par le programme informatique. Vous ne pouvez pas
-            identifier l'autre joueur de votre paire, et il ne peut pas vous identifier.
+            You are part of a pair randomly formed by the computer program. You cannot identify the other player in
+            your pair, and they cannot identify you.
         </p>
         <p>
-            Pour chacun des {{ C.matrices|length }} tableaux ci-dessous vous devez choisir une répartition d'argent
-            entre vous et l'autre joueur de votre paire. Les montants sont exprimés en monnaie expérimentale,
-            l'ECU. Le taux de conversion des ECU en Euros est 1 ECU = {{ C.conversion_rate|c }}.
+            For each of the {{ C.matrices|length }} matrices below, you must choose an allocation of money between
+            yourself and the other player in your pair. Amounts are expressed in experimental currency (ECU).
+            The conversion rate from ECU to Euros is 1 ECU = {{ C.conversion_rate|c }}.
         </p>
         <p>
-            Dans chaque tableau, la ligne du haut indique le montant pour vous, et la ligne du bas le montant
-            pour l'autre joueur de votre paire. Pour choisir une répartition vous devez cliquer sur la colonne
-            correspondant à votre choix.
-            Vous devez avoir choisi une répartition dans chaque tableau pour pouvoir valider la page.
+            In each matrix, the top row indicates the amount for you, and the bottom row indicates the amount for
+            the other player in your pair. To choose an allocation, click on the column corresponding to your choice.
+            You must choose one allocation in each matrix before you can validate the page.
         </p>
         <p>
-            Pour déterminer le gain de chacun des deux joueurs de la paire, le programme informatique va d'abord
-            sélectionner aléatoirement un des {{ C.matrices|length }} tableaux.
-            Ensuite, il va déterminer aléatoirement si c'est votre répartition ou celle de l'autre joueur qui va
-            s'appliquer dans votre paire. Si c'est votre répartition alors
-            pour le tableau sélectionné votre répartition déterminera le gain de chacun : votre gain
-            sera égal au montant à la ligne "Pour vous" et le gain de l'autre joueur
-            sera égal au montant à la ligne "Pour l'autre joueur". Si c'est la
-            répartition de l'autre joueur de votre paire alors ce sera sa répartition pour le tableau sélectionné qui
-            déterminera le gain de chacun : votre gain sera égal au montant à la ligne "Pour l'autre joueur", et son
-            gain
-            sera égal au montant de la ligne "Pour vous".
+            To determine each player's payoff in the pair, the computer program will first randomly select one of the
+            {{ C.matrices|length }} matrices.
+            It will then randomly determine whether your allocation or the other player's allocation is applied in your
+            pair. If your allocation is applied, then for the selected matrix your allocation determines both payoffs:
+            your payoff equals the amount in the "For you" row, and the other player's payoff equals the amount in the
+            "For the other player" row. If the other player's allocation is applied, then for the selected matrix
+            your payoff equals the amount in the "For the other player" row, and their payoff equals the amount in the
+            "For you" row.
         </p>
     </div>
 </div>
@@ -55,18 +51,18 @@ Social Value Orientation - Decisions
 {{ for matrice in C.matrices }}
 <div class="card mb-3">
     <div class="card-header">
-        <h5 class="mb-3">Tableau {{ forloop.counter }}</h5>
+        <h5 class="mb-3">Matrix {{ forloop.counter }}</h5>
     </div>
     <div class="card-body">
         <table class="table table-bordered mb-3 matrice" id="matrice_{{forloop.counter0}}">
             <tr>
-                <th>Pour vous</th>
+                <th>For you</th>
                 {{ for partage in matrice }}
                 <td onclick="select_cell(this);">{{ partage.0 }}</td>
                 {{ endfor }}
             </tr>
             <tr>
-                <th>Pour l'autre</th>
+                <th>For the other player</th>
                 {{ for partage in matrice }}
                 <td onclick="select_cell(this)">{{ partage.1 }}</td>
                 {{ endfor }}
@@ -87,8 +83,8 @@ Social Value Orientation - Decisions
 <script>
     function fill_auto() {
         document.querySelectorAll("table.matrice").forEach(table => {
-            // Sélectionne toutes les cellules <td> de la première ligne, en excluant les cellules <th>
-            let table_cells = Array.from(table.rows[0].cells).slice(1); // Utilise slice(1) pour exclure le premier <th>
+            // Select all first-row <td> cells while excluding the <th> header cell.
+            let table_cells = Array.from(table.rows[0].cells).slice(1); // slice(1) skips the first <th>
             let random_selection = Math.floor(Math.random() * table_cells.length);
             select_cell(table_cells[random_selection]);
         });

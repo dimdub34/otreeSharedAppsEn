@@ -3,7 +3,7 @@
 {{ endblock }}
 
 {{ block title }}
-Bomb Risk Elicitation Task - Résultat
+Bomb Risk Elicitation Task - Result
 {{ endblock }}
 
 {{ block content }}
@@ -11,12 +11,12 @@ Bomb Risk Elicitation Task - Résultat
 <div class="card bg-light mb-3">
     <div class="card-body">
     <p>
-        Vous avez ouvert {{ player.n_boxes }} boîte{{ if player.n_boxes > 1 }}s{{ endif }}.
-        La bombe était dans la boîte numéro {{ player.bomb_box }}.
+        You opened {{ player.n_boxes }} box{{ if player.n_boxes > 1 }}es{{ endif }}.
+        The bomb was in box number {{ player.bomb_box }}.
         {{ if not player.explode }}
-        Votre gain est de {{ player.n_boxes }} x {{ C.BOX_VAL|cu }} = {{ player.payoff }}.
+        Your payoff is {{ player.n_boxes }} x {{ C.BOX_VAL|cu }} = {{ player.payoff }}.
         {{ else }}
-        Votre gain est de {{ player.payoff }}.
+        Your payoff is {{ player.payoff }}.
         {{ endif }}
     </p>
     </div>
@@ -30,7 +30,7 @@ Bomb Risk Elicitation Task - Résultat
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{static 'fill_auto.js' }}"></script>
+<script src="{{static 'global/js/fill_auto.js' }}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const table_boites = document.querySelector("#table_boites");
@@ -43,20 +43,20 @@ Bomb Risk Elicitation Task - Résultat
                 let cell = document.createElement("td");
                 cell.innerHTML = `${compteur}`;
 
-                // Ajouter une classe pour les boîtes collectées
+                // Add style for collected boxes.
                 if (compteur <= Number(js_vars.n_boxes)) {
                     cell.classList.add("bg-info");
                 }
 
-                // Ajouter l'image de la bombe
+                // Add bomb image.
                 if (compteur === Number(js_vars.bomb_box)) {
-                    cell.innerHTML = ''; // Supprimer le texte de la cellule
+                    cell.innerHTML = ''; // Remove cell text.
                     cell.classList.add("bg-danger");
                     let bombImage = document.createElement("img");
                     bombImage.src = "{{ static 'bret/bomb.png' }}";
-                    bombImage.alt = "Bombe";
-                    bombImage.style.width = "100%"; // Ajuste la taille de l'image pour qu'elle s'adapte à la cellule
-                    bombImage.style.height = "100%"; // Ajuste la taille de l'image pour qu'elle s'adapte à la cellule
+                    bombImage.alt = "Bomb";
+                    bombImage.style.width = "100%"; // Fit image to cell width.
+                    bombImage.style.height = "100%"; // Fit image to cell height.
                     cell.appendChild(bombImage);
                 }
 

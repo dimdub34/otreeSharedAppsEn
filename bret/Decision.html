@@ -10,20 +10,19 @@ Bomb Risk Elicitation Task - Decision
 <div class="card bg-light mb-3">
     <div class="card-body">
         <p>
-            Dans ce jeu, 100 boîtes, numérotées de 1 à 100, vous sont présentées. <strong>Chacune de ces boites a
-            une valeur de {{ C.BOX_VAL|cu }}, sauf une qui contient une bombe.</strong> Vous ne connaissez pas le numéro
-            de la boîte qui contient la bombe, vous savez seulement qu'elle peut être dans n'importe quelle boîte. C'est
-            le programme informatique qui détermine de manière aléatoire la boîte dans laquelle se situe la bombe.
-            Chaque boîte a la même chance de contenir la bombe.
+            In this task, 100 boxes numbered from 1 to 100 are presented to you. <strong>Each of these boxes is worth
+            {{ C.BOX_VAL|cu }}, except one that contains a bomb.</strong> You do not know which box contains the bomb;
+            you only know that it can be in any box. The computer program randomly determines which box contains the bomb.
+            Every box has the same chance of containing the bomb.
         </p>
         <p>
-            Vous devez décider du nombre de boites que vous souhaitez ouvrir, en commençant par la boite numéro 1 et
-            en continuant par numéros croissants, jusqu’à 100 maximum.
+            You must decide how many boxes you want to open, starting with box number 1 and then continuing in
+            ascending order, up to a maximum of 100.
         </p>
         <ul>
-            <li class="fw-bold">Si vous ouvrez la boîte qui contient la bombe, votre gain est de {{ 0|cu }}.</li>
-            <li class="fw-bold">Si vous n'ouvrez pas la boîte qui contient la bombe, vous gagnez {{ C.BOX_VAL|cu }}
-                par boîte ouverte.
+            <li class="fw-bold">If you open the box containing the bomb, your payoff is {{ 0|cu }}.</li>
+            <li class="fw-bold">If you do not open the box containing the bomb, you earn {{ C.BOX_VAL|cu }}
+                per opened box.
             </li>
         </ul>
         <table id="table_boites" class="text-center mx-auto mb-3">
@@ -32,17 +31,16 @@ Bomb Risk Elicitation Task - Decision
 </div>
 <div class="text-center mb-5">
     <p>
-        <label for="range_boites" class="form-label">Déplacer le curseur pour sélectionner le nombre de boîtes que vous
-            souhaitez ouvrir</label>
+        <label for="range_boites" class="form-label">Move the slider to select how many boxes you want to open</label>
     </p>
     0&nbsp;<input type="range" min="0" max="100" value="0" name="n_boxes" class="slider" id="range_boites"
                   style="width:80%">&nbsp;100
-    <p>Vous souhaitez ouvrir
+    <p>You want to open
         <output for="range_boites" id="range_boites_out" class="fw-bold">0</output>
-        boîte(s).
+        box(es).
     </p>
     <p class="form-control-errors" style="visibility: hidden">
-        Vous n'avez pas déplacé le curseur ! Veuillez le déplacer, même si vous le remettez sur 0 ensuite.
+        You did not move the slider. Please move it, even if you set it back to 0 afterward.
     </p>
 </div>
 
@@ -51,9 +49,9 @@ Bomb Risk Elicitation Task - Decision
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'fill_auto.js' }}"></script>
+<script src="{{ static 'global/js/fill_auto.js' }}"></script>
 <script>
-    let curseur_has_move = false;
+    let slider_has_moved = false;
 
     document.addEventListener("DOMContentLoaded", () => {
         const table_boites = document.querySelector("#table_boites");
@@ -69,17 +67,17 @@ Bomb Risk Elicitation Task - Decision
             }
         }
         document.querySelector("#range_boites").addEventListener("input", (event) => {
-            curseur_has_move = true;
-            // Récupère la valeur saisie
+            slider_has_moved = true;
+            // Read selected value.
             const value = parseInt(event.target.value);
             document.querySelector("#range_boites_out").value = value;
 
-            // Réinitialiser les classes bg-info pour toutes les cellules
+            // Reset bg-info class for all cells.
             table_boites.querySelectorAll("td").forEach(cell => {
                 cell.classList.remove("bg-info");
             });
 
-            // Appliquer la classe bg-info aux cellules correspondant à la valeur saisie
+            // Apply bg-info class to cells matching selected value.
             table_boites.querySelectorAll("td").forEach((cell, index) => {
                 if (index < value) {
                     cell.classList.add("bg-info");
@@ -88,7 +86,7 @@ Bomb Risk Elicitation Task - Decision
         });
         document.querySelector(".otree-btn-next").addEventListener("click", (event) => {
             event.preventDefault();
-            if (!curseur_has_move) {
+            if (!slider_has_moved) {
                 document.querySelector(".form-control-errors").style.visibility = "visible";
                 return false;
             }

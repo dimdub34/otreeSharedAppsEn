@@ -18,7 +18,7 @@ class C(BaseConstants):
     NB_ROWS = 10
     NB_COLS = 10
 
-    BOX_VAL = 0.10  # en euros
+    BOX_VAL = 0.10  # in euros
 
 
 class Subsession(BaseSubsession):
@@ -30,7 +30,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    n_boxes = models.IntegerField(label="Combien de boîtes souhaitez-vous collecter ?", min=0, max=100)
+    n_boxes = models.IntegerField(label="How many boxes do you want to collect?", min=0, max=100)
     bomb_box = models.IntegerField(min=0, max=100)
     explode = models.BooleanField()
     payoff_ecu = models.IntegerField()
@@ -41,8 +41,8 @@ class Player(BasePlayer):
         self.payoff_ecu = self.n_boxes * (1 - self.explode)
         self.payoff = cu(self.payoff_ecu * C.BOX_VAL)
 
-        txt_final = (f"Vous avez ouvert {self.n_boxes} boîtes. La bombe était dans la boîte {self.bomb_box}. "
-                     f"Votre gain est donc de {self.payoff}.")
+        txt_final = (f"You opened {self.n_boxes} boxes. The bomb was in box {self.bomb_box}. "
+                     f"Your payoff is {self.payoff}.")
         self.participant.vars[app_name] = dict(txt_final=txt_final, payoff=self.payoff)
 
 

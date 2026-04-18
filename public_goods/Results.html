@@ -4,13 +4,13 @@
 {{ endblock }}
 
 {{ block title }}
-<span class="text-muted">Résultats</span>
+<span class="text-muted">Results</span>
 {{ endblock }}
 
 {{ block content }}
 
 <div class="d-flex justify-content-between mb-3">
-    <p>Période {{ player.round_number }} sur {{ C.NUM_ROUNDS }}</p>
+    <p>Period {{ player.round_number }} of {{ C.NUM_ROUNDS }}</p>
     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">
         <i class="bi bi-info-circle"></i> Instructions
     </button>
@@ -18,23 +18,23 @@
 
 <div class="alert alert-info mb-3">
     <p>
-        Vous avez placé {{ player.private_account }} jetons sur votre compte individuel, et {{ player.public_account }}
-        jetons sur le compte collectif. <br>
-        Au total, votre groupe a placé {{ group.total_public_account }} jetons sur le
-        compte collectif.
+        You placed {{ player.private_account }} tokens in your private account and {{ player.public_account }}
+        tokens in the public account. <br>
+        In total, your group placed {{ group.total_public_account }} tokens in the
+        public account.
         {{ if subsession.display_contributions_individuelles }}
         <br>
         {{ contributions_others_txt }}
         {{ endif }}
         {{ if group.total_public_account < subsession.seuil }}
         <br>
-        Le nombre total de jetons placés par votre groupe dans le compte collectif n'a pas atteint le seuil minimal
-        de {{ subsession.seuil }} jetons donc il n'y a aucun gain issu du compte collectif. <br>
-        <span class="fw-bold"> Votre gain pour la période est égal à {{ player.payoff_ecu|to2 }} ECU.</span>
+        The total number of tokens placed by your group in the public account did not reach the minimum threshold
+        of {{ subsession.seuil }} tokens, so there is no payoff from the public account. <br>
+        <span class="fw-bold"> Your payoff for the period is {{ player.payoff_ecu|to2 }} ECU.</span>
         {{ else }}
         <br>
         <span class="fw-bold">
-        Votre gain pour la période est égal à {{ player.private_account }} + {{ group.total_public_account }} x
+        Your payoff for the period is {{ player.private_account }} + {{ group.total_public_account }} x
         {{ subsession.mpcr }} = {{ player.payoff_ecu|to2 }} ECU.
             </span>
         {{ endif }}
