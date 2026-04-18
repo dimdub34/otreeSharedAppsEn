@@ -1,8 +1,8 @@
 # oTree Applications
 
-Ce répertoire contient des applications oTree "standard". Les interfaces sont en français.  
-Version d'oTree utilisée : 5.11.1  
-La liste des packages Python est dans le fichier python_packages.txt.
+This directory contains "standard" oTree applications. The interfaces are in English.  
+oTree version used: 5.11.1  
+The list of Python packages is available in `python_packages.txt`.
 
 ## **Applications**
 
